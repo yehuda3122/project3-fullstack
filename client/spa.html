@@ -1,66 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Countdown</title>
-    <link href="spa.css" rel="stylesheet">
-
-</head>
-<body>
-
-<template id="login-template">
-    <div>
+    <link href="spa.css" rel="stylesheet" />
+  </head>
+  <body>
+    <template id="login-template">
+      <div>
         <h2>Welcome to the best countdown you have ever experienced!</h2>
         <form id="login">
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text">
-            <br><br>
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password">
-            <br>
-            <div class="error"></div>
-            <br>
-            <button class="submit" type="submit">Sign In</button>
-            <br>
-            <button class="change-action" id="goto-register" type="submit">Go To Sign Up</button>
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" />
+          <br /><br />
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" />
+          <br />
+          <div class="error"></div>
+          <br />
+          <button class="submit" type="submit">Sign In</button>
+          <br />
+          <button class="change-action" id="goto-register" type="submit">
+            Go To Sign Up
+          </button>
         </form>
-    </div>
-</template>
+      </div>
+    </template>
 
-<template id="register-template">
-    <div>
+    <template id="register-template">
+      <div>
         <h2>Welcome to the best countdown you have ever experienced!</h2>
         <form id="register">
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text">
-            <br><br>
-            <label for="password">Password</label>
-            <input id="password" name="password" type="password">
-            <br><br>
-            <label class="signup" for="confirm-password">Confirm Password</label>
-            <input id="confirm-password" name="confirm-password" type="password">
-            <br>
-            <div class="error"></div>
-            <br>
-            <button class="submit" type="submit">Sign Up</button>
-            <br>
-            <button class="change-action" id="goto-login" type="submit">Go To Sign In</button>
+          <label for="username">Username</label>
+          <input id="username" name="username" type="text" />
+          <br /><br />
+          <label for="password">Password</label>
+          <input id="password" name="password" type="password" />
+          <br /><br />
+          <label class="signup" for="confirm-password">Confirm Password</label>
+          <input
+            id="confirm-password"
+            name="confirm-password"
+            type="password"
+          />
+          <br />
+          <div class="error"></div>
+          <br />
+          <button class="submit" type="submit">Sign Up</button>
+          <br />
+          <button class="change-action" id="goto-login" type="submit">
+            Go To Sign In
+          </button>
         </form>
-    </div>
-</template>
+      </div>
+    </template>
 
-<template id="game-template">
-    <div>
-        <button id="logout">Log Out</button>
-        <div id="game">
-            <label for="countdown">Enter number of seconds to countdown</label>
-            <input id="countdown" name="username" type="text">
-            <button id="submit-countdown">Count Down</button>
+    <template id="to-do-template">
+      <div class = "container-warper">
+        <div class="container">
+          <div id="newtask">
+            <input type="text" placeholder="Add Tasks" />
+            <button id="push" onclick="app.to_do_list()">Add</button>
+          </div>
+          <div id="tasks"><button style="height: fit-content;width:fit-content ;"onclick=app.showListScreen()>show more missions</button></div>
         </div>
-    </div>
-</template>
+      </div>
+    </template>
 
-<script src="spa.js"></script>
-</body>
-
+    <script src="spa.js" defer></script>
+  </body>
 </html>
