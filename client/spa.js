@@ -1,4 +1,3 @@
-let currentPageId = 0;
 const app = {
   pages: [],
   show: new Event("show"),
@@ -139,10 +138,9 @@ const app = {
 
   //showing the saved list on screen
   showListScreen: function () {
-
     //gets the current user
     let user = JSON.parse(localStorage.getItem("User"));
-    let temp = JSON.parse(localStorage.getItem(user.userName))
+    let temp = JSON.parse(localStorage.getItem(user.userName));
 
     //pulls all the keys to use them as ids for the delete buttons
     let keys = Object.keys(temp.list);
@@ -159,70 +157,66 @@ const app = {
           </button>
         </div>`;
 
-        //set onclick function to remove specific mission 
+      //set onclick function to remove specific mission
       var current_tasks = document.querySelectorAll(".delete");
 
       for (var i = 0; i < current_tasks.length; i++) {
         current_tasks[i].onclick = function () {
-            //send the text content to removeList function to remove it from the list in the local storage
-            app.removeList(this.id);
-            this.parentNode.remove();
-          };
+          //send the text content to removeList function to remove it from the list in the local storage
+          app.removeList(this.id);
+          this.parentNode.remove();
+        };
       }
     }
   },
 
   to_do_list: function () {
-
     //checks if the input not empty if not add div with the inputs value and show it on the screen
     if (document.querySelector("#newtask input").value.length == 0) {
       alert("Kindly Enter Task Name!!!!");
     } else {
+      let id1 = Date.now();
       document.querySelector("#tasks").innerHTML += `
               <div class="task">
                   <span id="taskname">
                       ${document.querySelector("#newtask input").value}
                   </span>
-                  <button  class="delete">
+                  <button  class="delete" id = "${id1}">
                       <i class="far fa-trash-alt"></i>
                   </button>
               </div>
           `;
-      
+
       var current_tasks = document.querySelectorAll(".delete");
       //takes all the removal buttons and and add to every button id with the current time
       for (var i = 0; i < current_tasks.length; i++) {
-        current_tasks[i].id = Date.now();
-        let id = current_tasks[i].id;
-
-        let user = JSON.parse(localStorage.getItem("User"));
-
-        //get the current user from the local storage
-        let temp = JSON.parse(localStorage.getItem(user.userName));
-        //stor every mission inside object and the key is the id of is the removal button id
-        temp.list[id] = document.querySelector("#newtask input").value;
-        // add the updated list of the current user in local storage
-        localStorage.setItem(user.userName, JSON.stringify(temp));
         current_tasks[i].onclick = function () {
-            console.log(this.id);
-        
-            //send the text content to removeList function to remove it from the list in the local storage
-            app.removeList(this.id);
-            this.parentNode.remove();
-          }
+          console.log(this.id);
+          //send the text content to removeList function to remove it from the list in the local storage
+          app.removeList(this.id);
+          this.parentNode.remove();
+        };
       }
+
+      let user = JSON.parse(localStorage.getItem("User"));
+      //get the current user from the local storage
+      let temp = JSON.parse(localStorage.getItem(user.userName));
+      //stor every mission inside object and the key is the id of is the removal button id
+      temp.list[id1] = document.querySelector("#newtask input").value;
+      // add the updated list of the current user in local storage
+      localStorage.setItem(user.userName, JSON.stringify(temp));
     }
   },
 
-
   removeList: function (toRemove) {
     let user = JSON.parse(localStorage.getItem("User"));
-
+    console.log("hy");
     //get the current user from the local storage
     let temp = JSON.parse(localStorage.getItem(user.userName));
+    console.log(temp.list);
     //take the id and use it to find the wanted mission to delete
     delete temp.list[toRemove];
-
+    console.log(temp.list);
     localStorage.setItem(user.userName, JSON.stringify(temp));
   },
 };
