@@ -62,12 +62,21 @@
             <input type="text" placeholder="Add Tasks" />
             <button id="push" onclick="app.to_do_list()">Add</button>
           </div>
-          <div id="tasks"><button style="height: fit-content;width:fit-content ;"onclick=app.showListScreen()>show more missions</button></div>
+          <div id="tasks"><button style="height: fit-content;width:fit-content ;" onclick=app.showListScreen()>show more missions</button></div>
         </div>
       </div>
     </template>
 
+    <template id="taskTemplate">
+      <div class="task">
+        <span id="taskname"></span>
+        <button class="delete">
+          <i class="far fa-trash-alt"></i>
+        </button>
+      </div>
+    </template>
+
     <script src="spa.js" defer></script>
-    <script src="FAJAX.js" defer></script>
+
   </body>
 </html>
