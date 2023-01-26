@@ -188,20 +188,22 @@ const app = {
         if (document.querySelector("#newtask input").value.length === 0) {
             alert("Kindly Enter Task Name!!!!");
         } else {
-            let id1 = Date.now();
-            document.querySelector("#tasks").innerHTML += `
-              <div class="task">
-                  <span id="taskname">
-                      ${document.querySelector("#newtask input").value}
-                  </span>
-                  <button  class="delete" id = "${id1}">
-                      <i class="far fa-trash-alt"></i>
-                  </button>
-              </div>
-          `;
+
+            let newContent = app.pages[3].content.cloneNode(true);
+
+
+            let div = newContent.querySelector('div');
+
+            let span = div.querySelector('span');
+            let button = div.querySelector('button');
+            span.textContent = document.querySelector("#newtask input").value;
+            button.id = Date.now();
+
+            document.getElementById("tasks").appendChild(div);
+
 
             var current_tasks = document.querySelectorAll(".delete");
-            //takes all the removal buttons and and add to every button id with the current time
+            //takes all the removal buttons and add to every button id with the current time
             for (var i = 0; i < current_tasks.length; i++) {
                 current_tasks[i].onclick = function () {
                     console.log(this.id);
