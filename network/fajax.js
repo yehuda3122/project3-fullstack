@@ -5,7 +5,7 @@ class FXMLHttpRequest {
     }
 
     open(method, url) {
-        if (!(methods.includes(method) || methods.includes(method.toLowerCase()))) {
+        if (!(methods.includes(method) || methods.includes(method.toUpperCase()))) {
             throw 'Method is not supported!!!';
         }
         this.method = method;
@@ -13,10 +13,7 @@ class FXMLHttpRequest {
     }
 
     send(string = '') {
-        if (this.method === 'get') server.get(this.url, string);
-        else if (this.method === 'post') server.post(this.url, string);
-        else if (this.method === 'put') server.put(this.url, string);
-        else if (this.method === 'delete') server.delete(this.url, string);
+        server.handle(this.method.toLowerCase(), this.url, string);
     }
 }
 
