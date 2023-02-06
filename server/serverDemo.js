@@ -1,5 +1,6 @@
 class ServerDemo {
     handle(request, url, data) {
+        checkUrl(url)
         if (request === 'get') return this.get(url);
         else if (request === 'post') this.post(url, data);
         else if (request === 'put') this.put(url, data);
@@ -16,7 +17,7 @@ class ServerDemo {
             return getAll(x[1]);
 
         } else if (x[2] === 'search' && x[3] && x[3]!=='') {
-            return this.search(x[1], x[3]);
+            return search(x[1], x[3]);
 
         } else {
             return undefined;
@@ -25,32 +26,38 @@ class ServerDemo {
         // handle getting specific record
     }
 
-    post(url, data) {
-        let user = url[0:-1];
-        addRecord(user, data);
+    post(url,data) {
+        checkData(data)
+        let x = url.split('/');
+
+        addRecord(x[1], data);
     }
 
     put(url, data) {
+        checkData(data)
+        let x = url.split('/');
 
+        changeRecord(x[1],data)
     }
 
     delete(url, data) {
+        let x = url.split('/');
+
+        deleteRecord(x[1],data)
 
     }
 
-    search(username, query) {
-        let records = getAll(username);
-        let response = [];
-
-        for (const recordsKey in records) {
-
-            //console.log(records[recordsKey].includes(query))
-
-            if (records[recordsKey].includes(query)) {
-                let obj = {key: recordsKey, value: records[recordsKey]};
-                response.push(obj)
-            }
+    checkUrl(url){
+        let x = url.split('/');
+        if (x.length !== 2) {
+            throw 'the url uncorrected'
         }
-        return response;
+    }
+
+    checkData(data){
+        if(!data)
+        {
+            throw 'data is needed'
+        }     
     }
 }

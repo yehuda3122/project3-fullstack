@@ -18,11 +18,11 @@ class FXMLHttpRequest {
     }
 }
 let f = new FXMLHttpRequest();
-f.open('get', '/shoham/search/coffee')
-console.log(f.send())
+f.open('get', '/q/search/coffee')
+// console.log(f.send())
 
 let server = new ServerDemo();
-console.log(server.handle('get', '/shoham/search/coffee', ''))
+console.log(server.handle('put', '/q', {key:347587,value:"kajehf"}))
 /*erq = new FXMLHttpRequest();
 erq.open('get', '/')
 erq.send()
