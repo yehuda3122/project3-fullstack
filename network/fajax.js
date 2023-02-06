@@ -2,10 +2,11 @@ methods = ['GET', 'POST', 'PUT', 'DELETE'];
 
 class FXMLHttpRequest {
     constructor() {
+        this.server = new ServerDemo();
     }
 
     open(method, url) {
-        if (!(methods.includes(method) || methods.includes(method.toUpperCase()))) {
+        if (!methods.includes(method.toUpperCase())) {
             throw 'Method is not supported!!!';
         }
         this.method = method;
@@ -13,8 +14,17 @@ class FXMLHttpRequest {
     }
 
     send(string = '') {
-        server.handle(this.method.toLowerCase(), this.url, string);
+        return this.server.handle(this.method.toLowerCase(), this.url, string);
     }
 }
+let f = new FXMLHttpRequest();
+f.open('get', '/shoham/search/coffee')
+console.log(f.send())
 
-server = new ServerDemo();
+let server = new ServerDemo();
+console.log(server.handle('get', '/shoham/search/coffee', ''))
+/*erq = new FXMLHttpRequest();
+erq.open('get', '/')
+erq.send()
+
+let url = '/user'*/
