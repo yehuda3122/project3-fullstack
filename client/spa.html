@@ -8,7 +8,7 @@
   <body>
     <template id="login-template">
       <div>
-        <h2>Welcome to the best countdown you have ever experienced!</h2>
+        <h2>Welcome to the best task app you have ever used!</h2>
         <form id="login">
           <label for="username">Username</label>
           <input id="username" name="username" type="text" />
@@ -29,7 +29,7 @@
 
     <template id="register-template">
       <div>
-        <h2>Welcome to the best countdown you have ever experienced!</h2>
+        <h2>Welcome to the best task app you have ever used!</h2>
         <form id="register">
           <label for="username">Username</label>
           <input id="username" name="username" type="text" />
@@ -60,9 +60,9 @@
         <div class="container">
           <div id="newtask">
             <input type="text" placeholder="Add Tasks" />
-            <button id="push" onclick="app.to_do_list()">Add</button>
+            <button id="push" onclick="app.addTask()">Add</button>
           </div>
-          <div id="tasks"><button style="height: fit-content;width:fit-content ;" onclick=app.showListScreen()>show more missions</button></div>
+          <div id="tasks"><button style="height: fit-content;width:fit-content ;" onclick=app.requestAllTasks()>show more missions</button></div>
         </div>
       </div>
     </template>
@@ -70,6 +70,9 @@
     <template id="taskTemplate">
       <div class="task">
         <span id="taskname"></span>
+        <button class="edit">
+          <i class="far fa-trash-alt"></i>
+        </button>
         <button class="delete">
           <i class="far fa-trash-alt"></i>
         </button>

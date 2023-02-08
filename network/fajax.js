@@ -1,6 +1,7 @@
 methods = ['GET', 'POST', 'PUT', 'DELETE'];
 
 class FXMLHttpRequest {
+    onload;
     constructor() {
         this.server = new ServerDemo();
     }
@@ -14,15 +15,22 @@ class FXMLHttpRequest {
     }
 
     send(string = '') {
-        return this.server.handle(this.method.toLowerCase(), this.url, string);
+        if(!this.onload) throw `no onload function was provided\n
+        method: ${this.method}\n
+        url: ${this.url}\n
+        onload: ${this.onload}\n
+        data: ${string}`
+
+        this.onload(this.server.handle(this.method.toLowerCase(), this.url, string));
     }
 }
 let f = new FXMLHttpRequest();
 f.open('get', '/q/search/coffee')
-// console.log(f.send())
+f.onload = function log(arg) {
+    console.log(arg);
+}
+//f.send()
 
-let server = new ServerDemo();
-console.log(server.handle('put', '/q', {key:347587,value:"kajehf"}))
 /*erq = new FXMLHttpRequest();
 erq.open('get', '/')
 erq.send()

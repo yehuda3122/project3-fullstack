@@ -134,27 +134,15 @@ const app = {
         newPage.dispatchEvent(app.show);
     },
 
-    // to do list
+    // app functionality from now on
 
-    //showing the saved list on screen
-    showListScreen: function () {
-        document.querySelectorAll("div.task").forEach(
-            (div) => div.remove()
-        );
-
-        //gets the current user
-        let user = JSON.parse(localStorage.getItem("User"));
-        let temp = JSON.parse(localStorage.getItem(user.userName));
-
+    displayTasks: function (tasks) {
         //pulls all the keys to use them as ids for the delete buttons
-        let keys = Object.keys(temp.list);
+        let keys = Object.keys(tasks);
 
         //creates divs for every mission that stored inside the local storage
         keys.forEach((key) => {
-
-            let item = temp.list[key];
-            //console.log(document.getElementById("tasks"));
-
+            let item = tasks[key];
 
             let newContent = app.pages[3].content.cloneNode(true);
 
@@ -162,7 +150,7 @@ const app = {
             let div = newContent.querySelector('div');
 
             let span = div.querySelector('span');
-            let button = div.querySelector('button');
+            let button = div.querySelector('button.delete');
             span.textContent = item;
             button.id = key;
 
@@ -170,70 +158,106 @@ const app = {
         })
 
         //set onclick function to remove specific mission
-        var current_tasks = document.querySelectorAll(".delete");
-
-        for (var i = 0; i < current_tasks.length; i++) {
-            current_tasks[i].onclick = function () {
-                //send the text content to removeList function to remove it from the list in the local storage
-                app.removeList(this.id);
+        document.querySelectorAll(".delete").forEach(task => {
+            task.onclick = function () {
+                app.removeTask(this.id);
                 this.parentNode.remove();
-            };
-        }
+            }
+        });
+
 
     },
 
-    to_do_list: function () {
+    //showing the saved list on screen
+    requestAllTasks: function () {
+        document.querySelectorAll("div.task").forEach(
+            (div) => div.remove()
+        );
+
+        //gets the current user
+
+        let nameRequest = new FXMLHttpRequest();
+
+        nameRequest.open('get', `/currentuser`);
+        nameRequest.onload = function(name){
+            let xmlRequest = new FXMLHttpRequest();
+
+            xmlRequest.open('get', `/${name}`);
+            xmlRequest.onload = app.displayTasks;
+            xmlRequest.send();
+        };
+        nameRequest.send();
+    },
+
+    addTask: function () {
 
         //checks if the input not empty if not add div with the inputs value and show it on the screen
         if (document.querySelector("#newtask input").value.length === 0) {
             alert("Kindly Enter Task Name!!!!");
-        } else {
-
-            let newContent = app.pages[3].content.cloneNode(true);
-
-
-            let div = newContent.querySelector('div');
-
-            let span = div.querySelector('span');
-            let button = div.querySelector('button');
-            span.textContent = document.querySelector("#newtask input").value;
-            button.id = Date.now();
-
-            document.getElementById("tasks").appendChild(div);
-
-
-            var current_tasks = document.querySelectorAll(".delete");
-            //takes all the removal buttons and add to every button id with the current time
-            for (var i = 0; i < current_tasks.length; i++) {
-                current_tasks[i].onclick = function () {
-                    console.log(this.id);
-                    //send the text content to removeList function to remove it from the list in the local storage
-                    app.removeList(this.id);
-                    this.parentNode.remove();
-                };
-            }
-
-            let user = JSON.parse(localStorage.getItem("User"));
-            //get the current user from the local storage
-            let temp = JSON.parse(localStorage.getItem(user.userName));
-            //stor every mission inside object and the key is the id of is the removal button id
-            temp.list[id1] = document.querySelector("#newtask input").value;
-            // add the updated list of the current user in local storage
-            localStorage.setItem(user.userName, JSON.stringify(temp));
+            return;
         }
+
+        let userInput = document.querySelector("#newtask input").value;
+
+        let newContent = app.pages[3].content.cloneNode(true);
+
+        let id1 = Date.now();
+        let div = newContent.querySelector('div');
+
+        let span = div.querySelector('span');
+        let button = div.querySelector('button.delete');
+        span.textContent = userInput;
+        button.id = id1;
+        button.onclick = function () {
+            //send the text content to removeList function to remove it from the list in the local storage
+            app.removeTask(this.id);
+            this.parentNode.remove();
+        };
+
+        document.getElementById("tasks").appendChild(div);
+
+        //add task to storage
+        let nameRequest = new FXMLHttpRequest();
+
+        nameRequest.open('get', `/currentuser`);
+        nameRequest.onload = function(name){
+            let xmlRequest = new FXMLHttpRequest();
+
+            xmlRequest.open('post', `/${name}`);
+            xmlRequest.onload = function (task) { console.log(`task '${task}' was added successfully`) };
+            let obj = {key: id1, value: userInput};
+            xmlRequest.send(JSON.stringify(obj));
+        };
+        nameRequest.send();
+
+        /*const current_tasks = document.querySelectorAll(".delete");
+        //takes all the removal buttons and add to every button id with the current time
+        for (let i = 0; i < current_tasks.length; i++) {
+            current_tasks[i].onclick = function () {
+                console.log(this.id);
+                //send the text content to removeList function to remove it from the list in the local storage
+                app.removeTask(this.id);
+                this.parentNode.remove();
+            };
+        }*/
+
+
     },
 
 
-    removeList: function (toRemove) {
-        let user = JSON.parse(localStorage.getItem("User"));
-        console.log("hy");
-        //get the current user from the local storage
-        let temp = JSON.parse(localStorage.getItem(user.userName));
-        console.log(temp.list);
-        //take the id and use it to find the wanted mission to delete
-        delete temp.list[toRemove];
-        console.log(temp.list);
-        localStorage.setItem(user.userName, JSON.stringify(temp));
+    removeTask: function (toRemove) {
+        let nameRequest = new FXMLHttpRequest();
+
+        nameRequest.open('get', `/currentuser`);
+        nameRequest.onload = function(name){
+            let xmlRequest = new FXMLHttpRequest();
+
+            xmlRequest.open('delete', `/${name}`);
+            xmlRequest.onload = function (task) { console.log(`task '${task}' was deleted successfully`) };
+
+            xmlRequest.send(JSON.stringify({key: toRemove}));
+        };
+        nameRequest.send();
     },
 };
 

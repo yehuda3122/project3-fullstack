@@ -1,4 +1,4 @@
-function getAll(user) {
+function getAllRecords(user) {
     let data = JSON.parse(localStorage.getItem(user));
     return data.list;
 }
@@ -8,8 +8,8 @@ function addRecord(user, obj) {
     let data = JSON.parse(localStorage.getItem(user));
 
     data.list[obj.key] = obj.value
-    
-    localStorage.setItem(user,JSON.stringify(data))
+
+    localStorage.setItem(user, JSON.stringify(data))
 }
 
 function changeRecord(user, obj) {
@@ -21,23 +21,28 @@ function changeRecord(user, obj) {
     }
 
     data.list[obj.key] = obj.value
-    
-    localStorage.setItem(user,JSON.stringify(data))
+
+    localStorage.setItem(user, JSON.stringify(data))
 }
 
-function deleteRecord(user,obj){
+function deleteRecord(user, obj) {
     let data = JSON.parse(localStorage.getItem(user));
+
     let k = Object.keys(data.list)
-    if (!k.find(obj.key)) {
-        throw 'the value are not exit'
+
+    if (!k.find((id) => id === obj.key)) {
+        throw 'the value does not exit'
     }
+    let removedTask = data.list[obj.key];
     delete data.list[obj.key]
-    
-    localStorage.setItem(user,JSON.stringify(data))
+
+    localStorage.setItem(user, JSON.stringify(data));
+
+    return removedTask;
 }
 
-function  search(username, query) {
-    let records = getAll(username);
+function search(username, query) {
+    let records = getAllRecords(username);
     let response = [];
 
     for (const recordsKey in records) {
@@ -50,4 +55,8 @@ function  search(username, query) {
         }
     }
     return response;
+}
+
+function getCurrentUser(){
+    return JSON.parse(localStorage.getItem("User")).userName;
 }
