@@ -7,22 +7,22 @@ function addRecord(user, obj) {
 
     let data = JSON.parse(localStorage.getItem(user));
 
-    data.list[obj.key] = obj.value
+    data.list[obj.key] = obj.value;
 
-    localStorage.setItem(user, JSON.stringify(data))
+    localStorage.setItem(user, JSON.stringify(data));
 }
 
 function changeRecord(user, obj) {
 
     let data = JSON.parse(localStorage.getItem(user));
-    let k = Object.keys(data.list)
-    if (!k.find(obj.key)) {
+
+    if (!data.list[obj.key]) {
         throw 'the value are not exit'
     }
 
-    data.list[obj.key] = obj.value
+    data.list[obj.key] = obj.value;
 
-    localStorage.setItem(user, JSON.stringify(data))
+    localStorage.setItem(user, JSON.stringify(data));
 }
 
 function deleteRecord(user, obj) {

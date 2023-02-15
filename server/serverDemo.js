@@ -45,7 +45,8 @@ class ServerDemo {
         this.checkData(data);
 
         let x = url.split('/');
-        changeRecord(x[1], data);
+
+        if(x.length===3 && x[2] === 'editTask') changeRecord(x[1], data);
 
         return data.value;
     }

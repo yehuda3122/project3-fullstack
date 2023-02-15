@@ -67,7 +67,7 @@
       </div>
     </template>
 
-    <template id="taskTemplate">
+    <template id="task-template">
       <div class="task">
         <span id="taskname"></span>
         <button class="edit">
@@ -76,6 +76,19 @@
         <button class="delete">
           <i class="far fa-trash-alt"></i>
         </button>
+      </div>
+    </template>
+
+    <template id="edit-task-template">
+      <div class="edit-container">
+      <form>
+        <label for="edit">Edit task</label>
+        <input id="edit" name="username" type="text" />
+
+        <button class="cancel">Cancel</button>
+        <br />
+        <button class="save">Save</button>
+      </form>
       </div>
     </template>
 
