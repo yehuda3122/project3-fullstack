@@ -60,3 +60,9 @@ function search(username, query) {
 function getCurrentUser(){
     return JSON.parse(localStorage.getItem("User")).userName;
 }
+
+
+function getUserPassword(username) {
+    let data = JSON.parse(localStorage.getItem(username));
+    return data.Password;
+}

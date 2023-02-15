@@ -14,15 +14,12 @@ class ServerDemo {
         let x = url.split('/');
 
         if (x.length === 2) {
-            if (x[1]==='currentuser') return getCurrentUser();
             return getAllRecords(x[1]);
-
         } else if (x[2] === 'search' && x[3] && x[3] !== '') {
             return search(x[1], x[3]);
 
-        } else if(x[1]==='currentuser'){
-            console.log('retrieving username')
-            return getCurrentUser();
+        } else if(x[2]==='login'){
+            return getUserPassword(x[1]);
         }
         return undefined;
         // handle getting specific record
