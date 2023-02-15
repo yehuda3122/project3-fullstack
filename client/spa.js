@@ -1,9 +1,9 @@
 const app = {
-  currentUser: "",
-  pages: [],
-  show: new Event("show"),
+    currentUser: "",
+    pages: [],
+    show: new Event("show"),
 
-  //show the first page with the firs load
+    //show the first page with the firs load
 
     init: function () {
         // localStorage.clear()
@@ -84,22 +84,16 @@ const app = {
         let userPasswordRequest = new FXMLHttpRequest();
 
         userPasswordRequest.open('get', `/${username}/login`);
-        userPasswordRequest.onload = function (userExists){
-            if (userExists) {
-
-                if (temp.Password === password) {
+        userPasswordRequest.onload = function (storedPassword) {
+            if (storedPassword) {
+                if (storedPassword === password) {
                     app.currentUser = username;
                     success = true;
                 } else {
-                    form.children.namedItem("error");
-                    form.getElementsByClassName("error")[0].value =
-                        "password does not match";
-                    success = false;
+                    form.getElementsByClassName("error")[0].value = "password does not match";
                 }
             } else {
-                form.children.namedItem("error");
                 form.getElementsByClassName("error")[0].value = "user does not exist";
-                success = false;
             }
         };
         userPasswordRequest.send();
@@ -113,24 +107,33 @@ const app = {
         let password = form.children.namedItem("password").value;
         let confirm_password = form.children.namedItem("confirm-password").value;
 
+        let success = false;
+
         if (password === confirm_password) {
-            // TODO: change to access the server
-            if (localStorage.getItem(username)) {
-                form.children.namedItem("error");
-                form.getElementsByClassName("error")[0].value = "user already exists";
-                return false;
-            } else {
-                let tempUser = {userName: username, password: password};
-                localStorage.setItem("User", JSON.stringify(tempUser));
-                temp = {Password: password, list: {}};
-                localStorage.setItem(username, JSON.stringify(temp));
-                return true;
-            }
+            let userPasswordRequest = new FXMLHttpRequest();
+
+            userPasswordRequest.open('get', `/${username}/login`);
+            userPasswordRequest.onload = function (userExists) {
+                if (userExists) {
+                    form.getElementsByClassName("error")[0].value = "user already exists";
+                } else {
+                    let addNewUser = new FXMLHttpRequest();
+
+                    addNewUser.open('post', `/newUser`);
+                    addNewUser.onload = function() {
+                        success = true;
+                        console.log(`added user ${username} successfully`)
+                    }
+                    let temp = {Password: password, list: {}};
+                    addNewUser.send(JSON.stringify(temp));
+                }
+            };
+            userPasswordRequest.send();
         } else {
             form.children.namedItem("error");
             form.getElementsByClassName("error")[0].value = "passwords don't match";
-            return false;
         }
+        return success;
     },
 
     //going back function
@@ -156,82 +159,82 @@ const app = {
 
             let newContent = app.pages[3].content.cloneNode(true);
 
-      let div = newContent.querySelector("div");
+            let div = newContent.querySelector("div");
 
-      let span = div.querySelector("span");
-      let button = div.querySelector("button.delete");
-      span.textContent = item;
-      button.id = key;
-      document.getElementById("tasks").appendChild(div);
-    });
+            let span = div.querySelector("span");
+            let button = div.querySelector("button.delete");
+            span.textContent = item;
+            button.id = key;
+            document.getElementById("tasks").appendChild(div);
+        });
 
-    //set onclick function to remove specific mission
-    document.querySelectorAll(".delete").forEach((task) => {
-      task.onclick = function () {
-        app.removeTask(this.id);
-        this.parentNode.remove();
-      };
-    });
+        //set onclick function to remove specific mission
+        document.querySelectorAll(".delete").forEach((task) => {
+            task.onclick = function () {
+                app.removeTask(this.id);
+                this.parentNode.remove();
+            };
+        });
 
-    document.querySelectorAll(".edit").forEach((task) => {
-      task.onclick = function () {
-        app.removeTask(this.id);
-        this.parentNode.remove();
-      };
-    });
-  },
+        document.querySelectorAll(".edit").forEach((task) => {
+            task.onclick = function () {
+                app.removeTask(this.id);
+                this.parentNode.remove();
+            };
+        });
+    },
 
-  //showing the saved list on screen
-  requestAllTasks: function () {
-    document.querySelectorAll("div.task").forEach((div) => div.remove());
+    //showing the saved list on screen
+    requestAllTasks: function () {
+        document.querySelectorAll("div.task").forEach((div) => div.remove());
 
-    //gets the current user
+        //gets the current user
 
-    let xmlRequest = new FXMLHttpRequest();
+        let xmlRequest = new FXMLHttpRequest();
 
-    xmlRequest.open("get", this.currentUser);
-    xmlRequest.onload = app.displayTasks;
-    xmlRequest.send();
-  },
+        xmlRequest.open("get", `/${this.currentUser}`);
+        xmlRequest.onload = app.displayTasks;
+        xmlRequest.send();
+    },
 
-  addTask: function () {
-    //checks if the input not empty if not add div with the inputs value and show it on the screen
-    if (document.querySelector("#newtask input").value.length === 0) {
-      alert("Kindly Enter Task Name!!!!");
-      return;
-    }
+    addTask: function () {
+        //checks if the input not empty if not add div with the inputs value and show it on the screen
+        if (document.querySelector("#newtask input").value.length === 0) {
+            alert("Kindly Enter Task Name!!!!");
+            return;
+        }
 
         let userInput = document.querySelector("#newtask input").value;
 
         let newContent = app.pages[3].content.cloneNode(true);
 
-    let id1 = Date.now();
-    let div = newContent.querySelector("div");
+        let id1 = Date.now();
+        let div = newContent.querySelector("div");
 
-    let span = div.querySelector("span");
-    let button = div.querySelector("button.delete");
-    span.textContent = userInput;
-    button.id = id1;
-    button.onclick = function () {
-      //send the text content to removeList function to remove it from the list in the local storage
-      app.removeTask(this.id);
-      this.parentNode.remove();
-    };
+        let span = div.querySelector("span");
+        let button = div.querySelector("button.delete");
+        span.textContent = userInput;
+        button.id = id1;
+        button.onclick = function () {
+            //send the text content to removeList function to remove it from the list in the local storage
+            app.removeTask(this.id);
+            this.parentNode.remove();
+        };
 
-    document.getElementById("tasks").appendChild(div);
+        document.getElementById("tasks").appendChild(div);
 
-    //add task to storage
+        //add task to storage
 
-      let xmlRequest = new FXMLHttpRequest();
+        let xmlRequest = new FXMLHttpRequest();
 
-      xmlRequest.open("post", this.currentUser);
+        xmlRequest.open("post", `/${this.currentUser}`);
 
-      xmlRequest.onload = function (task) {
-        console.log(`task '${task}' was added successfully`);
-      };
+        xmlRequest.onload = function (task) {
+            console.log(`task '${task}' was added successfully`);
+        };
 
-      let obj = { key: id1, value: userInput };
-      xmlRequest.send(JSON.stringify(obj));
+        let obj = {key: id1, value: userInput};
+        xmlRequest.send(JSON.stringify(obj));
 
         /*const current_tasks = document.querySelectorAll(".delete");
         //takes all the removal buttons and add to every button id with the current time
@@ -243,18 +246,18 @@ const app = {
                 this.parentNode.remove();
             };
         }*/
-  },
+    },
 
-  removeTask: function (toRemove) {
-      let xmlRequest = new FXMLHttpRequest();
+    removeTask: function (toRemove) {
+        let xmlRequest = new FXMLHttpRequest();
 
-      xmlRequest.open("delete", this.currentUser);
-      xmlRequest.onload = function (task) {
-        console.log(`task '${task}' was deleted successfully`);
-      };
+        xmlRequest.open("delete", `/${this.currentUser}`);
+        xmlRequest.onload = function (task) {
+            console.log(`task '${task}' was deleted successfully`);
+        };
 
-      xmlRequest.send(JSON.stringify({ key: toRemove }));
-  },
+        xmlRequest.send(JSON.stringify({key: toRemove}));
+    },
 };
 
 app.init();

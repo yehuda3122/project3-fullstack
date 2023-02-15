@@ -57,12 +57,8 @@ function search(username, query) {
     return response;
 }
 
-function getCurrentUser(){
-    return JSON.parse(localStorage.getItem("User")).userName;
-}
-
 
 function getUserPassword(username) {
     let data = JSON.parse(localStorage.getItem(username));
-    return data.Password;
+    if (data) return data.Password;
 }
