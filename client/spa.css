@@ -74,7 +74,8 @@ button#logout {
   box-sizing: border-box;
 }
 .container-warper {
-  height: 100vh;
+  padding-top: 90px;
+  height: 70vh;
   background: #066acd;
   border-radius: 20px;
 }
@@ -136,7 +137,7 @@ button#logout {
 
 .task {
   border-radius: 5px;
-  align-items: center;
+  /* align-items: center; */
   justify-content: space-between;
   border: 1px solid #939697;
   cursor: pointer;
@@ -152,6 +153,7 @@ button#logout {
   font-weight: 400;
 }
 .task button {
+  
   background-color: #6583e5;
   color: #ffffff;
   border: none;

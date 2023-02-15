@@ -1,4 +1,7 @@
 class ServerDemo {
+    constructor (){
+        this.status = 200
+    }
     handle(request, url, data) {
         this.checkUrl(url)
         if (request === 'get') return this.get(url);
@@ -58,19 +61,21 @@ class ServerDemo {
 
     checkUrl(url) {
         if (url.split('/').length < 2) {
-            throw 'the url is bad'
+            this.status = 404
+            // throw 'the url is bad'
         }
     }
 
     checkData(data) {
         if (data && data.key && data.value) return
-        if (data) throw 'data format is bad'
-        else throw 'data is needed'
+        if (data) this.status = 400
+        // else throw 'data is needed'
     }
 
     checkDataForDelete(data) {
         if (data && data.key) return
-        if (data) throw 'data format is bad'
-        else throw 'data is needed'
+        if (data) this.status = 400
+        // throw 'data format is bad'
+        // else throw 'data is needed'
     }
 }

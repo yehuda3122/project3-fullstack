@@ -22,6 +22,12 @@ class FXMLHttpRequest {
         data: ${string}`
 
         this.onload(this.server.handle(this.method.toLowerCase(), this.url, string));
+        if (this.server.status === 404) {
+            alert('the page not found')
+        }
+        if (this.server.status === 400) {
+            alert('bad request')
+        }
     }
 }
 // let f = new FXMLHttpRequest();
