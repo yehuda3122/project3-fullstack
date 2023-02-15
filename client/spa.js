@@ -4,7 +4,6 @@ const app = {
     show: new Event("show"),
 
     //show the first page with the firs load
-
     init: function () {
         // localStorage.clear()
         app.pages = document.querySelectorAll("template");
@@ -24,7 +23,6 @@ const app = {
     },
 
     // change the url accord the page that the user chose and display the page
-
     addListeners: function () {
         document.querySelectorAll(".change-action").forEach((btn) => {
             btn.addEventListener("click", function () {
@@ -60,13 +58,13 @@ const app = {
     },
 
     // showing the chosen page and removing the current
-
     showPage: function (ev) {
         app.clearPage();
 
         let newContent = ev.target.content.cloneNode(true);
         document.body.appendChild(newContent);
-        app.addListeners();
+
+        if (ev.target.id !== 'to-do-template') app.addListeners();
     },
 
     clearPage: function () {
@@ -74,7 +72,6 @@ const app = {
     },
 
     //login page
-
     login: function (form) {
         let username = form.children.namedItem("username").value;
         let password = form.children.namedItem("password").value;
@@ -100,8 +97,7 @@ const app = {
         return success;
     },
 
-    //registering page
-
+    //register page
     register: function (form) {
         let username = form.children.namedItem("username").value;
         let password = form.children.namedItem("password").value;
@@ -120,7 +116,7 @@ const app = {
                     let addNewUser = new FXMLHttpRequest();
 
                     addNewUser.open('post', `/newUser`);
-                    addNewUser.onload = function() {
+                    addNewUser.onload = function () {
                         success = true;
                         console.log(`added user ${username} successfully`)
                     }
@@ -137,7 +133,6 @@ const app = {
     },
 
     //going back function
-
     back: function (ev) {
         app.clearPage();
 
@@ -148,7 +143,6 @@ const app = {
     },
 
     // app functionality from now on
-
     displayTasks: function (tasks) {
         //pulls all the keys to use them as ids for the delete buttons
         let keys = Object.keys(tasks);
@@ -178,8 +172,8 @@ const app = {
 
         document.querySelectorAll(".edit").forEach((task) => {
             task.onclick = function () {
-                app.removeTask(this.id);
-                this.parentNode.remove();
+                let taskId = this.parentNode.querySelector('.delete').id;
+                app.editTask(taskId);
             };
         });
     },
@@ -206,19 +200,29 @@ const app = {
 
         let userInput = document.querySelector("#newtask input").value;
 
+        document.querySelector("#newtask input").value = '';
+
         let newContent = app.pages[3].content.cloneNode(true);
 
         let id1 = Date.now();
         let div = newContent.querySelector("div");
 
         let span = div.querySelector("span");
-        let button = div.querySelector("button.delete");
+        let deleteButton = div.querySelector("button.delete");
         span.textContent = userInput;
-        button.id = id1;
-        button.onclick = function () {
+        deleteButton.id = id1;
+        deleteButton.onclick = function () {
             //send the text content to removeList function to remove it from the list in the local storage
             app.removeTask(this.id);
             this.parentNode.remove();
+        };
+
+        let editButton = div.querySelector("button.edit");
+        span.textContent = userInput;
+        editButton.id = id1;
+        editButton.onclick = function () {
+            //send the text content to removeList function to remove it from the list in the local storage
+            app.editTask(this.id);
         };
 
         document.getElementById("tasks").appendChild(div);
@@ -235,17 +239,6 @@ const app = {
 
         let obj = {key: id1, value: userInput};
         xmlRequest.send(JSON.stringify(obj));
-
-        /*const current_tasks = document.querySelectorAll(".delete");
-        //takes all the removal buttons and add to every button id with the current time
-        for (let i = 0; i < current_tasks.length; i++) {
-            current_tasks[i].onclick = function () {
-                console.log(this.id);
-                //send the text content to removeList function to remove it from the list in the local storage
-                app.removeTask(this.id);
-                this.parentNode.remove();
-            };
-        }*/
     },
 
     removeTask: function (toRemove) {
@@ -258,6 +251,53 @@ const app = {
 
         xmlRequest.send(JSON.stringify({key: toRemove}));
     },
+
+    editTask(taskId) {
+        let newContent = app.pages[4].content.cloneNode(true);
+        let div = newContent.querySelector("div");
+
+        document.body.querySelectorAll('.task').forEach((task) => {
+            if (taskId === task.querySelector('.delete').id) {
+                div.querySelector("#edit").value = task.querySelector('span').innerText
+
+            }
+        })
+
+        div.querySelector('.cancel').onclick = function () {
+            this.parentNode.parentNode.remove();
+        }
+        div.querySelector('.save').onclick = function () {
+            // retrieve the new task
+            // send to server to save it
+            // update the html to see the edited task
+
+            let editedTask=this.parentNode.querySelector('input').value;
+
+            this.parentNode.parentNode.remove();
+
+            console.log(this.parentNode.querySelector('input').value)
+
+            document.body.querySelectorAll('.task').forEach((task) => {
+                if (taskId === task.querySelector('.delete').id) {
+                    task.querySelector('span').innerText = editedTask;
+                }
+            })
+
+            let putTask = new FXMLHttpRequest();
+            putTask.open('put', `/${app.currentUser}/editTask`);
+
+            putTask.onload = function() { console.log(`task ${taskId} changed to ${editedTask}`)};
+
+            console.log({key: taskId, value: editedTask})
+            console.log(taskId)
+
+            putTask.send(JSON.stringify({key: taskId, value: editedTask}));
+        }
+
+
+
+        document.body.appendChild(div);
+    }
 };
 
 app.init();
