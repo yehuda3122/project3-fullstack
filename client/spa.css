@@ -162,4 +162,10 @@ button#logout {
   border-radius: 5px;
 }
 
+.task button i{
+    display: flex;
+    justify-items: center;
+    justify-content: center;
+}
+
 /* * > * {background: rgba(0, 0, 0, 0.5);} */

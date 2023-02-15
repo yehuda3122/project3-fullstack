@@ -24,11 +24,11 @@ class FXMLHttpRequest {
         this.onload(this.server.handle(this.method.toLowerCase(), this.url, string));
     }
 }
-let f = new FXMLHttpRequest();
-f.open('get', '/q/search/coffee')
-f.onload = function log(arg) {
-    console.log(arg);
-}
+// let f = new FXMLHttpRequest();
+// f.open('get', '/q/search/coffee')
+// f.onload = function log(arg) {
+//     console.log(arg);
+// }
 //f.send()
 
 /*erq = new FXMLHttpRequest();
