@@ -59,7 +59,7 @@ const app = {
 
     // showing the chosen page and removing the current
     showPage: function (ev) {
-        app.clearPage();
+        app.clear("div");
 
         let newContent = ev.target.content.cloneNode(true);
         document.body.appendChild(newContent);
@@ -67,8 +67,13 @@ const app = {
         if (ev.target.id !== 'to-do-template') app.addListeners();
     },
 
-    clearPage: function () {
-        [...document.getElementsByTagName("div")].forEach((div) => div.remove());
+    clear: function (string) {
+        if (string === "div") {
+            [...document.getElementsByTagName(string)].forEach((div) => div.remove());
+        }
+        else{
+            document.querySelectorAll(`${string}`).forEach((div) => div.remove())        
+        }
     },
 
     //login page
@@ -134,7 +139,7 @@ const app = {
 
     //going back function
     back: function (ev) {
-        app.clearPage();
+        app.clear("div");
 
         let name = location.hash.replace("#", "");
 
@@ -144,6 +149,7 @@ const app = {
 
     // app functionality from now on
     displayTasks: function (tasks) {
+        console.log(tasks)
         //pulls all the keys to use them as ids for the delete buttons
         let keys = Object.keys(tasks);
 
@@ -190,6 +196,19 @@ const app = {
         xmlRequest.onload = app.displayTasks;
         xmlRequest.send();
     },
+
+    search: function(){
+        app.clear("div.task");
+        let input_content = document.getElementById("search-input")
+
+        let xmlSearch = new FXMLHttpRequest();
+        xmlSearch.open("get",`/${this.currentUser}/search/${input_content.value}`);
+        xmlSearch.onload = app.displayTasks;
+        
+        console.log(input_content.value)
+        xmlSearch.send()
+    },
+
 
     addTask: function () {
         //checks if the input not empty if not add div with the inputs value and show it on the screen

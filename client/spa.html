@@ -58,6 +58,10 @@
     <template id="to-do-template">
       <div class = "container-warper">
         <div class="container">
+          <div id = "search">
+            <input id = "search-input" type="text" placeholder="Search">
+            <button id = "search_button" onclick="app.search()">search</button>
+          </div>
           <div id="newtask">
             <input type="text" placeholder="Add Tasks" />
             <button id="push" onclick="app.addTask()">Add</button>

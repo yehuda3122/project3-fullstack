@@ -43,17 +43,17 @@ function deleteRecord(user, obj) {
 
 function search(username, query) {
     let records = getAllRecords(username);
-    let response = [];
+    let response = {};
 
     for (const recordsKey in records) {
 
         //console.log(records[recordsKey].includes(query))
 
         if (records[recordsKey].includes(query)) {
-            let obj = {key: recordsKey, value: records[recordsKey]};
-            response.push(obj)
+            response[recordsKey] = records[recordsKey]
         }
     }
+    console.log(response)
     return response;
 }
 
