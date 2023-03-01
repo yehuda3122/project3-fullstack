@@ -11,15 +11,20 @@ const app = {
             page.addEventListener("show", app.showPage);
         });
 
+        app.loadLoginPage();
+
         history.replaceState({}, "Login", "#login");
 
         window.addEventListener("popstate", app.back);
 
+        app.addListeners();
+    },
+
+    loadLoginPage: function (){
+        app.clear('div')
         let temp = document.getElementsByTagName("template")[2];
         let newContent = temp.content.cloneNode(true);
         document.body.appendChild(newContent);
-
-        app.addListeners();
     },
 
     // change the url accord the page that the user chose and display the page
@@ -72,7 +77,7 @@ const app = {
             [...document.getElementsByTagName(string)].forEach((div) => div.remove());
         }
         else{
-            document.querySelectorAll(`${string}`).forEach((div) => div.remove())        
+            document.querySelectorAll(`${string}`).forEach((div) => div.remove())
         }
     },
 
@@ -320,6 +325,12 @@ const app = {
 
 
         document.body.appendChild(div);
+    },
+
+    logout() {
+        app.currentUser = '';
+
+        app.loadLoginPage();
     }
 };
 

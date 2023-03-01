@@ -52,23 +52,26 @@
 </template>
 
 <template id="to-do-template">
-    <div class="container-warper">
-        <div class="container">
-            <div id="search">
-                <input id="search-input" type="text" placeholder="Search">
-                <button id="search_button" onclick="app.search()">search</button>
-            </div>
-            <div id="newtask">
-                <input type="text" placeholder="Add Tasks"/>
-                <button id="push" onclick="app.addTask()">Add</button>
-            </div>
-            <div id="tasks">
-                <button style="height: fit-content;width:fit-content ;" onclick=app.requestAllTasks()>show more
-                    missions
+        <div class="container-wrapper">
+            <div class="container">
+                <button id="logout" onclick="app.logout()">
+                    <i class="fa-solid fa-right-from-bracket"></i>
                 </button>
+                <div id="search">
+                    <input id="search-input" type="text" placeholder="Search">
+                    <button id="search_button" onclick="app.search()">search</button>
+                </div>
+                <div id="newtask">
+                    <input type="text" placeholder="Add Tasks"/>
+                    <button id="push" onclick="app.addTask()">Add</button>
+                </div>
+                <div id="tasks">
+                    <button style="height: fit-content;width:fit-content ;" onclick=app.requestAllTasks()>
+                        show more missions
+                    </button>
+                </div>
             </div>
         </div>
-    </div>
 </template>
 
 <template id="task-template">
