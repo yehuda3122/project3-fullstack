@@ -22,7 +22,7 @@ const app = {
 
     loadLoginPage: function (){
         app.clear('div')
-        let temp = document.getElementsByTagName("template")[2];
+        let temp = document.getElementsByTagName("template")[0];
         let newContent = temp.content.cloneNode(true);
         document.body.appendChild(newContent);
     },
