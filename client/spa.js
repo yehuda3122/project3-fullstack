@@ -15,7 +15,7 @@ const app = {
 
         window.addEventListener("popstate", app.back);
 
-        let temp = document.getElementsByTagName("template")[0];
+        let temp = document.getElementsByTagName("template")[2];
         let newContent = temp.content.cloneNode(true);
         document.body.appendChild(newContent);
 
@@ -104,6 +104,9 @@ const app = {
 
     //register page
     register: function (form) {
+        console.log(form)
+        console.log(form.getElementsByClassName("error")[0])
+
         let username = form.children.namedItem("username").value;
         let password = form.children.namedItem("password").value;
         let confirm_password = form.children.namedItem("confirm-password").value;
@@ -116,11 +119,12 @@ const app = {
             userPasswordRequest.open('get', `/${username}/login`);
             userPasswordRequest.onload = function (userExists) {
                 if (userExists) {
+                    console.log("user already exists")
                     form.getElementsByClassName("error")[0].value = "user already exists";
                 } else {
                     let addNewUser = new FXMLHttpRequest();
 
-                    addNewUser.open('post', `/newUser`);
+                    addNewUser.open('post', `/newUser/${username}`);
                     addNewUser.onload = function () {
                         success = true;
                         console.log(`added user ${username} successfully`)
@@ -132,6 +136,7 @@ const app = {
             userPasswordRequest.send();
         } else {
             form.children.namedItem("error");
+            console.log("passwords don't match")
             form.getElementsByClassName("error")[0].value = "passwords don't match";
         }
         return success;
@@ -208,7 +213,6 @@ const app = {
         console.log(input_content.value)
         xmlSearch.send()
     },
-
 
     addTask: function () {
         //checks if the input not empty if not add div with the inputs value and show it on the screen
@@ -320,3 +324,5 @@ const app = {
 };
 
 app.init();
+
+

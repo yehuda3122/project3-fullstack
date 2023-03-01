@@ -4,10 +4,14 @@ function getAllRecords(user) {
 }
 
 function addRecord(user, obj) {
+    let data;
+    if (obj.Password && obj.list) {
+        data = obj;
+    } else {
+        data = JSON.parse(localStorage.getItem(user));
 
-    let data = JSON.parse(localStorage.getItem(user));
-
-    data.list[obj.key] = obj.value;
+        data.list[obj.key] = obj.value;
+    }
 
     localStorage.setItem(user, JSON.stringify(data));
 }

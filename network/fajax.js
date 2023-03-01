@@ -21,6 +21,7 @@ class FXMLHttpRequest {
         onload: ${this.onload}\n
         data: ${string}`
 
+        console.log(this.server.status)
         this.onload(this.server.handle(this.method.toLowerCase(), this.url, string));
         if (this.server.status === 404) {
             alert('the page not found')

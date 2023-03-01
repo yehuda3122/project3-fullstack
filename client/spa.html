@@ -1,106 +1,106 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <title>Countdown</title>
-    <link href="spa.css" rel="stylesheet" />
-  </head>
-  <body>
-    <template id="login-template">
-      <div>
+    <link href="spa.css" rel="stylesheet"/>
+</head>
+<body>
+<template id="login-template">
+    <div>
         <h2>Welcome to the best task app you have ever used!</h2>
         <form id="login">
-          <label for="username">Username</label>
-          <input id="username" name="username" type="text" />
-          <br /><br />
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" />
-          <br />
-          <div class="error"></div>
-          <br />
-          <button class="submit" type="submit">Sign In</button>
-          <br />
-          <button class="change-action" id="goto-register" type="submit">
-            Go To Sign Up
-          </button>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text"/>
+            <br/><br/>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password"/>
+            <br/>
+            <div class="error"></div>
+            <br/>
+            <button class="submit" type="submit">Sign In</button>
+            <br/>
+            <button class="change-action" id="goto-register" type="submit">
+                Go To Sign Up
+            </button>
         </form>
-      </div>
-    </template>
+    </div>
+</template>
 
-    <template id="register-template">
-      <div>
+<template id="register-template">
+    <div>
         <h2>Welcome to the best task app you have ever used!</h2>
         <form id="register">
-          <label for="username">Username</label>
-          <input id="username" name="username" type="text" />
-          <br /><br />
-          <label for="password">Password</label>
-          <input id="password" name="password" type="password" />
-          <br /><br />
-          <label class="signup" for="confirm-password">Confirm Password</label>
-          <input
-            id="confirm-password"
-            name="confirm-password"
-            type="password"
-          />
-          <br />
-          <div class="error"></div>
-          <br />
-          <button class="submit" type="submit">Sign Up</button>
-          <br />
-          <button class="change-action" id="goto-login" type="submit">
-            Go To Sign In
-          </button>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text"/>
+            <br/><br/>
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password"/>
+            <br/><br/>
+            <label class="signup" for="confirm-password">Confirm Password</label>
+            <input id="confirm-password" name="confirm-password" type="password"/>
+            <br/>
+            <div class="error"></div>
+            <br/>
+            <button class="submit" type="submit">Sign Up</button>
+            <br/>
+            <button class="change-action" id="goto-login" type="submit">
+                Go To Sign In
+            </button>
         </form>
-      </div>
-    </template>
+    </div>
+</template>
 
-    <template id="to-do-template">
-      <div class = "container-warper">
+<template id="to-do-template">
+    <div class="container-warper">
         <div class="container">
-          <div id = "search">
-            <input id = "search-input" type="text" placeholder="Search">
-            <button id = "search_button" onclick="app.search()">search</button>
-          </div>
-          <div id="newtask">
-            <input type="text" placeholder="Add Tasks" />
-            <button id="push" onclick="app.addTask()">Add</button>
-          </div>
-          <div id="tasks"><button style="height: fit-content;width:fit-content ;" onclick=app.requestAllTasks()>show more missions</button></div>
+            <div id="search">
+                <input id="search-input" type="text" placeholder="Search">
+                <button id="search_button" onclick="app.search()">search</button>
+            </div>
+            <div id="newtask">
+                <input type="text" placeholder="Add Tasks"/>
+                <button id="push" onclick="app.addTask()">Add</button>
+            </div>
+            <div id="tasks">
+                <button style="height: fit-content;width:fit-content ;" onclick=app.requestAllTasks()>show more
+                    missions
+                </button>
+            </div>
         </div>
-      </div>
-    </template>
+    </div>
+</template>
 
-    <template id="task-template">
-      <div class="task">
+<template id="task-template">
+    <div class="task">
         <span id="taskname"></span>
         <button class="edit">
             <i class="fa-regular fa-pen-to-square"></i>
         </button>
         <button class="delete">
-          <i class="far fa-trash-alt"></i>
+            <i class="far fa-trash-alt"></i>
         </button>
-      </div>
-    </template>
+    </div>
+</template>
 
-    <template id="edit-task-template">
-      <div class="edit-container">
-      <form>
-        <label for="edit">Edit task</label>
-        <input id="edit" name="username" type="text" />
+<template id="edit-task-template">
+    <div class="edit-container">
+        <form>
+            <label for="edit">Edit task</label>
+            <input id="edit" name="username" type="text"/>
 
-        <button class="cancel">Cancel</button>
-        <br />
-        <button class="save">Save</button>
-      </form>
-      </div>
-    </template>
+            <button class="cancel">Cancel</button>
+            <br/>
+            <button class="save">Save</button>
+        </form>
+    </div>
+</template>
 
-    <script src="spa.js" defer></script>
-    <script src="../server/databaseAccess.js" defer></script>
-    <script src="../server/serverDemo.js" defer></script>
-    <script src="../network/fajax.js" defer></script>
-    <script src="https://kit.fontawesome.com/ca10456d45.js" crossorigin="anonymous"></script>
+<script src="spa.js" defer></script>
+<script src="../server/databaseAccess.js" defer></script>
+<script src="../server/serverDemo.js" defer></script>
+<script src="../network/fajax.js" defer></script>
+<script src="https://kit.fontawesome.com/ca10456d45.js" crossorigin="anonymous"></script>
 
-  </body>
+</body>
 </html>

@@ -1,6 +1,6 @@
 class ServerDemo {
     constructor (){
-        this.status = 200
+        this.status = 200;
     }
     handle(request, url, data) {
         this.checkUrl(url)
@@ -33,10 +33,24 @@ class ServerDemo {
 
         this.checkData(data);
 
-        let x = url.split('/');
-        addRecord(x[1], data);
+        console.log(url)
+        console.log(data)
 
-        return data.value;
+        let x = url.split('/');
+
+        let ret;
+
+        if(x[1] === 'newUser'){
+            addRecord(x[2], data);
+            ret = data.list;
+        }
+        else{
+            addRecord(x[1], data);
+            ret = data.value;
+        }
+
+
+        return ret;
     }
 
     put(url, data) {
@@ -69,6 +83,7 @@ class ServerDemo {
 
     checkData(data) {
         if (data && data.key && data.value) return
+        if (data && data.Password && data.list) return
         if (data) this.status = 400
         // else throw 'data is needed'
     }
