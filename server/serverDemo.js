@@ -33,7 +33,7 @@ class ServerDemo {
 
         this.checkData(data);
 
-        console.log(url)
+        //console.log(url)
         console.log(data)
 
         let x = url.split('/');
